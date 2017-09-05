@@ -1,0 +1,17 @@
+.command-bar {
+  display: grid;
+  border-top: 1px solid $color-quinary;
+  padding: $gutter 0;
+  .label, .commands {
+    grid-row-start: 1;
+  }
+  .label {
+    font-weight: bold;
+  }
+  .commands {
+    justify-self: end;
+    button {
+      margin-left: 1rem;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+@import "flaticon";
+
+ul.attachments {
+  list-style: none;
+  li {
+    display: flex;
+    .icon {
+      margin-right: $gutter;
+      @extend .fi;
+      @extend .flaticon-copy;
+      &:before {
+        font-size: 6rem;
+        vertical-align: top;
+      }
+    }
+    &.image .icon {
+      @extend .flaticon-picture;
+    }
+    .details {
+      label {
+        font-weight: normal;
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+@import "./flaticon";
+
+.activity {
+  @extend .comment;
+  .timestamp {
+    margin-bottom: 1.8rem;
+    font-size: 1.2rem;
+  }
+  label {
+    font-weight: normal;
+  }
+  &.can-toggle {
+    cursor: pointer;
+    &:hover {
+      background: $color-hover-bg;
+    }
+  }
+  .metadata {
+    h4 {
+      font-size: 1.6rem;
+      margin-bottom: 0;
+      margin-top: 2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid $color-secondary;
+    }
+  }
+  .toggle-indicator {
+    @extend .fi;
+    @extend .flaticon-more;
+    text-align: center;
+    height: 1rem;
+    &:before {
+      line-height: 1rem;
+      vertical-align: top;
+    }
+  }
+  blockquote {
+    background: $color-hover-bg;
+    font-size: 80%;
+    margin-bottom: 0;
+    padding: $gutter/2 $gutter;
+  }
+}

@@ -1,0 +1,42 @@
+.dashboard {
+  .dashboard-message {
+    margin-top: 10vh;
+    text-align: center;
+  }
+  .stats {
+    margin-top: $gutter;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 2vw;
+    list-style: none;
+    li {
+      height: 15vw;
+      min-height: 15rem;
+      grid-row: 1;
+      background: $color-secondary;
+      color: white;
+      padding: 1vw 2vw;
+      text-align: right;
+      cursor: pointer;
+      margin-bottom: 0;
+      &:hover {
+        background: lighten($color-secondary, 5);
+      }
+      label {
+        display: block;
+        font-weight: normal;
+        vertical-align: bottom;
+        text-align: right;
+      }
+      .count {
+        display: block;
+        font-size: 10vw;
+        line-height: 1;
+      }
+      &.selected {
+        cursor: default;
+        background: $color-primary;
+      }
+    }
+  }
+}

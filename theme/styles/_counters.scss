@@ -1,0 +1,19 @@
+@import "flaticon";
+
+.counter {
+  display: inline-block;
+  margin-right: 1rem;
+  @extend .fi;
+  &:before {
+    padding-right: 0.5rem;
+  }
+  &.tasks {
+    @extend .flaticon-list;
+  }
+  &.comments {
+    @extend .flaticon-speech-bubble;
+  }
+  &.attachments {
+    @extend .flaticon-copy;
+  }
+}

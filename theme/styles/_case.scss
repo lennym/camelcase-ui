@@ -1,0 +1,15 @@
+.case {
+  .header {
+    display: grid;
+    h1, .status {
+      grid-row: 1;
+    }
+    .status {
+      padding: 0 1rem;
+      justify-self: right;
+      align-self: center;
+      font-size: 2.5rem;
+      margin-bottom: 1.2rem;
+    }
+  }
+}

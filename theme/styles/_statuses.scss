@@ -1,0 +1,18 @@
+.status {
+  text-transform: uppercase;
+  color: $color-primary;
+  font-size: 80%;
+  font-weight: bold;
+  padding: 0 0.5rem;
+  text-align: center;
+  border: 0.1rem solid;
+  border-radius: 0.4rem;
+
+  &.comment {
+    color: $color-secondary;
+  }
+
+  &.task {
+    color: $red;
+  }
+}

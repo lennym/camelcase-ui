@@ -1,0 +1,15 @@
+.alert {
+  border: 1px solid;
+  border-radius: 5px;
+  padding: $gutter;
+  white-space: pre-wrap;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  &.error {
+    background: lighten($color-error, 60%);
+    color: $color-error;
+  }
+}

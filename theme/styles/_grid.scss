@@ -1,0 +1,50 @@
+body {
+  overflow:hidden;
+}
+
+.grid {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: $gutter*4 auto $gutter*4;
+  grid-template-columns: 33% 67%;
+  @include media(desktop) {
+    grid-template-columns: 256px auto;
+  }
+}
+
+header {
+  grid-column-start: span 2;
+  grid-row-start: 1;
+}
+
+.sidebar {
+  grid-column-start: 1;
+  grid-row-start: 2;
+}
+
+.main {
+  position: relative;
+  overflow: auto;
+  grid-column-start: span 2;
+  grid-row-start: 2;
+  .sidebar+& {
+    grid-column-start: 2;
+  }
+
+  .content {
+    width: 100%;
+    @include media(desktop) {
+      width: 80%;
+      margin: 0 auto;
+    }
+  }
+}
+
+footer {
+  grid-column-start: span 2;
+  grid-row-start: 3;
+}
+
+header, .main, footer {
+  padding: $gutter;
+}

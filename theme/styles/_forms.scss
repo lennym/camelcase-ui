@@ -1,0 +1,85 @@
+.form-row {
+  margin: $gutter 0;
+  &.error {
+    margin-left: -1.3rem;
+    padding-left: 1rem;
+    border-left: 0.3rem solid $color-error;
+    input {
+      border-color: $color-error;
+    }
+  }
+  .error-message {
+    color: $color-error;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+
+  .attachments {
+    margin: $gutter 0 0;
+    li {
+      .icon {
+        margin-right: $gutter / 2;
+        &:before {
+          font-size: 2rem;
+        }
+      }
+      label {
+        line-height: 2rem;
+      }
+    }
+  }
+}
+
+.button-row {
+  text-align: right;
+}
+
+fieldset, input, select, textarea {
+  margin-bottom: 0.5rem;
+}
+
+input {
+  font-size: 1.6rem;
+}
+
+textarea {
+  height: 15rem;
+}
+
+select {
+  background: none;
+  &:focus {
+    background: none;
+  }
+}
+
+.droparea {
+  padding: 3rem;
+  border: 2px dashed $color-secondary;
+  text-align: center;
+  font-size: 5rem;
+
+  label {
+    font-size: 3rem;
+    font-weight: normal;
+  }
+
+  &.active {
+    padding: 5rem 1rem;
+    border: 2px solid $color-primary;
+    background: $color-hover-bg;
+  }
+}
+
+.inline-form {
+  border-top: 1px solid $color-quinary;
+  .form-row {
+    margin: $gutter/2 0;
+  }
+  .button-row {
+    margin-top: -$gutter/2;
+  }
+  .button {
+    /*@extend .button-small;*/
+  }
+}

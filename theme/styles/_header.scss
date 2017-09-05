@@ -1,0 +1,56 @@
+@import "flaticon";
+
+header {
+  background: black;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+
+  h1 {
+    margin: 0;
+    font-weight: normal;
+    line-height: $gutter*2;
+    font-size: 2em;
+
+    padding-left: $gutter*3;
+    background: url('../images/camel.png') no-repeat;
+    background-size: contain;
+
+    a {
+      color: white;
+      text-decoration: none;
+      &:hover {
+        color: #eee;
+      }
+    }
+  }
+  ul.menu {
+    li {
+      display: inline-block;
+      padding: 0 $gutter / 2;
+      a {
+        @extend .fi;
+        color: white;
+        &:before {
+          padding-right: 5px;
+          text-decoration: none!important;
+        }
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      a[href="/dashboard"] {
+        @extend .flaticon-menu;
+      }
+      a[href="/search"] {
+        @extend .flaticon-search;
+      }
+      a[href="/settings"] {
+        @extend .flaticon-settings;
+      }
+    }
+  }
+  .user-profile {
+    float: right;
+  }
+}

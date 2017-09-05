@@ -1,0 +1,37 @@
+/* layouts */
+
+$gutter: 15px;
+$base-font: 12px;
+
+
+/* media queries */
+
+$tablet-breakpoint: 641px !default;
+$desktop-breakpoint: 769px !default;
+
+@mixin media($size: false) {
+  @if $size == desktop {
+    @media (min-width: $desktop-breakpoint){
+      @content;
+    }
+  } @else if $size == tablet {
+    @media (min-width: $tablet-breakpoint){
+      @content;
+    }
+  } @else if $size == mobile {
+    @media (max-width: $tablet-breakpoint - 1px){
+      @content;
+    }
+  }
+}
+
+$blue: #005ea5;
+$red: #b10e1e;
+$grey: #606c76;
+
+/* colours */
+$color-primary: $blue;
+$color-secondary: $grey;
+$color-error: $red;
+$color-subtle: lighten($color-secondary, 20);
+$color-hover-bg: lighten($color-primary, 65%);

@@ -1,0 +1,29 @@
+.task-list {
+  @extend .comment-list;
+}
+.task {
+  @extend .comment;
+  &.collapsed {
+    cursor: pointer;
+    &:hover {
+      background: $color-hover-bg;
+    }
+  }
+  &.incomplete {
+    border-color: $color-primary;
+  }
+  &.complete {
+    border-color: $color-quaternary;
+    h4, p {
+      opacity: 0.6;
+    }
+    .metadata h4 {
+      opacity: 1;
+    }
+  }
+  .status {
+    position: absolute;
+    top: $gutter;
+    right: $gutter;
+  }
+}

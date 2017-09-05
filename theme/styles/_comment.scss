@@ -1,0 +1,48 @@
+.comment-list {
+  margin-bottom: 2 * $gutter;
+}
+
+.comment {
+  position: relative;
+  .status {
+    position: absolute;
+    top: $gutter;
+    right: $gutter;
+  }
+  box-shadow: 0 0 1px 1px transparentize($color-secondary, 0.9);
+  margin-bottom: 1rem;
+
+  &.new-comment {
+    box-shadow: 0 0 1px 1px transparentize($color-primary, 0.9);
+    border-color: $color-primary;
+  }
+  .comment-body {
+    margin: 1rem 0;
+    p {
+      margin-bottom: 1rem;
+    }
+  }
+
+  ul.attachments {
+    border-top: 1px solid $color-quinary;
+    padding: $gutter 0 0;
+    li {
+      .icon:before {
+        font-size: 2rem;
+      }
+      .timestamp {
+        display: none;
+      }
+      label {
+        line-height: 2rem;
+        a {
+          color: $color-secondary;
+          &:hover {
+            color: $color-primary;
+          }
+        }
+      }
+    }
+  }
+
+}
