@@ -1,0 +1,40 @@
+#! /usr/bin/env node
+
+const path = require('path');
+const fs = require('fs');
+
+const webpack = require('webpack');
+const sass = require('npm-sass');
+const mkdirp = require('mkdirp');
+
+const args = require('minimist')(process.argv.slice(2));
+
+const outputDir = args._[0];
+
+mkdirp.sync(path.resolve(process.cwd(), outputDir, 'js'));
+mkdirp.sync(path.resolve(process.cwd(), outputDir, 'css'));
+
+let config = {};
+
+args.config = args.config || './webpack.config';
+
+try {
+  config = require(path.resolve(process.cwd(), args.config));
+} catch (e) {}
+
+webpack(Object.assign(require('../webpack.config'), config), (err, stats) => {
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  }
+  console.log(stats.toString());
+
+  if (args.sass) {
+    sass(args.sass, (err, result) => {
+      const to = path.resolve(process.cwd(), outputDir, 'css/app.css');
+      fs.writeFile(to, result.css, () => {
+        console.log(`\nCSS written to ${to}`);
+      });
+    });
+  }
+});
