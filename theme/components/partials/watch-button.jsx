@@ -29,11 +29,15 @@ class WatchButton extends Component {
     if (!this.props.case) {
       return;
     }
+    const watching = this.isWatching();
     const className = ['watch'];
-    if (this.isWatching()) {
+    if (watching) {
       className.push('watching');
     }
-    return (<a class={className.join(' ')} onClick={(e) => this.subscribe(e)}></a>);
+    const title = watching ?
+      'You are watching this case. Click to unwatch.' :
+      'You are not watching this case. Click to watch.';
+    return (<a class={className.join(' ')} onClick={(e) => this.subscribe(e)} title={title}></a>);
   }
 
 }
