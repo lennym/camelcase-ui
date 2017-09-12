@@ -15,7 +15,7 @@ class CaseList extends Component {
 
   render(props, state) {
     const filter = (this.state.filter || '').toLowerCase();
-    const cases = (this.props.cases || []).filter(c => c.reference.toString().includes(filter) || c.name.toLowerCase().includes(filter));
+    const cases = (this.props.cases || []).filter(c => c.reference.toString().includes(filter) || c.displayName.toLowerCase().includes(filter));
     return (
       <div>
         <input type="search" placeholder="Filter cases..." onInput={e => this.filter(e)}/>
@@ -26,7 +26,7 @@ class CaseList extends Component {
                 return (
                   <tr class="case" onClick={() => route(`/view/${c.reference}/overview`)}>
                     <td>{c.reference}</td>
-                    <td>{c.name}</td>
+                    <td>{c.displayName}</td>
                     <td><span class={`status status-${c.state}`}>{c.state}</span></td>
                     <td class="nowrap">
                       <span class="counter tasks" title={`${c.openTasks} open task(s)`}>

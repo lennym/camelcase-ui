@@ -74,7 +74,7 @@ class Case extends Component {
       <Layout {...this.props} getTabs={() => this.getTabs()}>
         <div class="case">
           <div class="header">
-            <h1>{activecase.name} ({this.props.reference})</h1>
+            <h1>{activecase.displayName} ({this.props.reference})</h1>
             <span class={`status status-${activecase.state}`}>{activecase.state}</span>
           </div>
           { this.renderSection() }
