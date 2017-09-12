@@ -3,10 +3,15 @@
 .watch {
   @extend .fi;
   @extend .flaticon-heart;
+  cursor: pointer;
   &.watching {
     color: red;
   }
 }
 .case-list .watch {
   margin-right: 1rem;
+}
+h1 .watch {
+  font-size: 80%;
+  margin-left: 1rem;
 }
