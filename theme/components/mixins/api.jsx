@@ -33,7 +33,7 @@ module.exports = superclass => class Api extends superclass {
   }
 
   updateData(url, data, options) {
-    return this.saveData(url, data, { method: 'PUT' });
+    return this.saveData(url, data, Object.assign({ method: 'PUT' }, options));
   }
 
 }

@@ -1,6 +1,6 @@
 module.exports = (state, action) => {
   state = state || {
-    filter: 'tasks'
+    filter: 'watching'
   };
   switch (action.type) {
     case 'DASHBOARD_FILTER': {

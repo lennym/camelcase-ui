@@ -8,6 +8,7 @@ const Comments = require('../partials/case/comments');
 const Details = require('../partials/case/details');
 const Activity = require('../partials/case/activity');
 const Attachments = require('../partials/case/attachments');
+const WatchButton = require('../partials/watch-button');
 
 const Layout = require('../layout');
 
@@ -75,6 +76,7 @@ class Case extends Component {
         <div class="case">
           <div class="header">
             <h1>{activecase.displayName} ({this.props.reference})</h1>
+            <WatchButton case={activecase} user={this.props.user} dispatch={this.props.dispatch} />
             <span class={`status status-${activecase.state}`}>{activecase.state}</span>
           </div>
           { this.renderSection() }

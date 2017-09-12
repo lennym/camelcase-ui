@@ -2,6 +2,8 @@ const { Component, h } = require('preact');
 const { route } = require('preact-router');
 const { Link } = require('preact-router/match');
 
+const WatchButton = require('./watch-button');
+
 class CaseList extends Component {
 
   constructor(props) {
@@ -29,6 +31,7 @@ class CaseList extends Component {
                     <td>{c.displayName}</td>
                     <td><span class={`status status-${c.state}`}>{c.state}</span></td>
                     <td class="nowrap">
+                      <WatchButton case={c} user={this.props.user} dispatch={this.props.dispatch} />
                       <span class="counter tasks" title={`${c.openTasks} open task(s)`}>
                         {c.openTasks}
                       </span>

@@ -4,6 +4,14 @@ module.exports = (state, action) => {
     case 'LOAD_CASES': {
       return action.cases || [];
     }
+    case 'SUBSCRIBE': {
+      return state.map(c => {
+        if (c._id === action.case._id) {
+          c.watchers = action.case.watchers;
+        }
+        return c;
+      });
+    }
     case 'CREATE_CASE': {
       state = state || [];
       state = state.concat(action.case);

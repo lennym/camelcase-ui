@@ -1,0 +1,12 @@
+@import "./flaticon";
+
+.watch {
+  @extend .fi;
+  @extend .flaticon-heart;
+  &.watching {
+    color: red;
+  }
+}
+.case-list .watch {
+  margin-right: 1rem;
+}

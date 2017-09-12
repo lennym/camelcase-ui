@@ -29,7 +29,6 @@ class Form extends Component {
   render() {
     const schema = this.props.schema;
     const form = this.props.form && this.props.form[this.props.id] || {};
-    console.log(form.submitting);
     form.values = form.values || {};
     form.errors = form.errors || {};
     return (

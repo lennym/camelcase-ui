@@ -34,10 +34,10 @@ class Dashboard extends Component {
     const FILTERS = {
       open: c => c.isOpen,
       tasks: c => c.isOpen && c.openTasks,
-      recent: c => c.isOpen && moment(c.createdAt).add(1, 'day').isAfter(moment())
+      watching: c => c.isOpen && c.watchers.filter(w => w.id === this.props.user.id).length
     };
     filter = filter || this.props.dashboard.filter;
-    filter = filter && FILTERS[filter] ? filter : 'tasks';
+    filter = filter && FILTERS[filter] ? filter : 'watching';
     const cases = this.props.cases || [];
     return cases.filter(FILTERS[filter]);
   }
@@ -52,21 +52,21 @@ class Dashboard extends Component {
 
   render() {
     const cases = this.filter();
+    const watching = this.filter('watching').length;
     const open = this.filter('open').length;
     const tasks = this.filter('tasks').length;
-    const recent = this.filter('recent').length;
     return (
       <Layout {...this.props}>
         <div class="dashboard">
           <ul class="stats">
+            <li onClick={() => this.setFilter('watching')} class={this.selected('watching')}>
+              <span class="count">{watching}</span><label>cases you are watching</label>
+            </li>
             <li onClick={() => this.setFilter('tasks')} class={this.selected('tasks')}>
               <span class="count">{tasks}</span><label>cases with pending tasks</label>
             </li>
             <li onClick={() => this.setFilter('open')} class={this.selected('open')}>
               <span class="count">{open}</span><label>open cases</label>
-            </li>
-            <li onClick={() => this.setFilter('recent')} class={this.selected('recent')}>
-              <span class="count">{recent}</span><label>recently created cases</label>
             </li>
           </ul>
           <CaseList {...this.props} cases={cases} />
