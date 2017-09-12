@@ -31,6 +31,10 @@ webpack(Object.assign(require('../webpack.config'), config), (err, stats) => {
 
   if (args.sass) {
     sass(args.sass, (err, result) => {
+      if (err) {
+        console.error(err);
+        process.exit(1);
+      }
       const to = path.resolve(process.cwd(), outputDir, 'css/app.css');
       fs.writeFile(to, result.css, () => {
         console.log(`\nCSS written to ${to}`);
