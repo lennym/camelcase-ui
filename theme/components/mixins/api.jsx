@@ -2,12 +2,19 @@ module.exports = superclass => class Api extends superclass {
 
   fetchData(url, options) {
     options = options || {};
+    options.credentials = 'same-origin';
+    options.headers = options.headers || {};
+    options.headers.Accept = options.headers.Accept || 'application/json';
     if (options.spinner !== false) {
       this.props.dispatch({ type: 'FETCH_START' });
     }
-    options.credentials = 'same-origin';
     return fetch(url, options)
       .then(response => {
+        if (!response.ok && response.status === 401) {
+          location.reload();
+          throw new Error('Unauthenticated');
+        }
+        this.props.dispatch({ type: 'FETCH_END' });
         return response.json().then(json => Object.assign(json, { ok: response.ok }));
       })
       .catch(e => {
@@ -19,17 +26,9 @@ module.exports = superclass => class Api extends superclass {
     options = Object.assign({
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' },
-      method: 'POST',
-      credentials: 'same-origin'
+      method: 'POST'
     }, options);
-
-    return fetch(url, options)
-      .then(response => {
-        return response.json().then(json => Object.assign(json, { ok: response.ok }));
-      })
-      .catch(e => {
-        this.props.dispatch({ type: 'ERROR', error: e });
-      });
+    return this.fetchData(url, options);
   }
 
   updateData(url, data, options) {

@@ -22,7 +22,6 @@
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-preset-preact": "^1.1.0",
-    "connect-ensure-login": "^0.1.1",
     "connect-redis": "^3.3.0",
     "consolidate": "^0.14.5",
     "cookie-parser": "^1.4.3",
