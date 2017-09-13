@@ -1,5 +1,3 @@
-@import "./flaticon";
-
 .activity {
   @extend .comment;
   .timestamp {
@@ -24,20 +22,20 @@
       border-bottom: 1px solid $color-secondary;
     }
   }
-  .toggle-indicator {
-    @extend .fi;
-    @extend .flaticon-more;
-    text-align: center;
-    height: 1rem;
-    &:before {
-      line-height: 1rem;
-      vertical-align: top;
-    }
-  }
   blockquote {
     background: $color-hover-bg;
     font-size: 80%;
     margin-bottom: 0;
     padding: $gutter/2 $gutter;
+  }
+}
+.toggle-indicator {
+  @extend .fi;
+  @extend .flaticon-more;
+  text-align: center;
+  height: 1rem;
+  &:before {
+    line-height: 1rem;
+    vertical-align: top;
   }
 }

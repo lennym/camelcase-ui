@@ -15,6 +15,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch({ type: 'LOAD_CASES', cases: [] });
     this.timeout = setInterval(() => this.refresh({ spinner: false }), 20000);
     return this.refresh();
   }
@@ -69,7 +70,7 @@ class Dashboard extends Component {
               <span class="count">{open}</span><label>open cases</label>
             </li>
           </ul>
-          <CaseList {...this.props} cases={cases} />
+          <CaseList {...this.props} cases={cases} filter={true} />
         </div>
       </Layout>
     );

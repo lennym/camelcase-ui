@@ -1,18 +1,28 @@
 .sidebar {
   box-shadow: 0 0 3px 3px rgba(0,0,0,0.1);
 
-  li {
-    list-style: none;
-    margin: 0;
-    &.selected {
-      background: $color-primary;
-      a {
-        color: white;
+  .tabs {
+    li {
+      list-style: none;
+      margin: 0;
+      &.selected {
+        background: $color-primary;
+        a {
+          color: white;
+        }
       }
     }
+    a {
+      padding: $gutter;
+      display: block;
+    }
   }
-  a {
+
+  form {
     padding: $gutter;
-    display: block;
+
+    button, .button {
+      @extend .button-small;
+    }
   }
 }

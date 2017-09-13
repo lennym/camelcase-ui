@@ -7,4 +7,3 @@ module.exports = superclass => class TabUrl extends superclass {
   }
 
 }
-

@@ -3,6 +3,8 @@ const { route } = require('preact-router');
 
 const Api = require('../mixins/api');
 
+const Tabs = require('../partials/tabs');
+
 const Overview = require('../partials/case/overview');
 const Comments = require('../partials/case/comments');
 const Details = require('../partials/case/details');
@@ -49,6 +51,10 @@ class Case extends Component {
     ];
   }
 
+  getSidebar() {
+    return <Tabs {...this.props} getTabs={() => this.getTabs()} />
+  }
+
   renderSection() {
     const tab = this.props.tab;
     switch (tab) {
@@ -72,7 +78,7 @@ class Case extends Component {
     const activecase = this.props.activecase;
 
     return (
-      <Layout {...this.props} getTabs={() => this.getTabs()}>
+      <Layout {...this.props} getSidebar={() => this.getSidebar()}>
         <div class="case">
           <div class="header">
             <h1>{activecase.displayName} ({this.props.reference})

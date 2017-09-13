@@ -14,13 +14,14 @@ class Layout extends Component {
 
   render() {
     const children = this.props.children;
+    const pageClass = this.props.className || '';
     return (
       <div class="grid">
         <Header {...this.props} />
-        { this.props.getTabs && (<Sidebar {...this.props} />) }
+        { this.props.getSidebar && (<Sidebar {...this.props} />) }
         <div class="main">
           { this.props.error && (<Alert state="error" error={this.props.error} />) }
-          <div class="content">
+          <div class={`content ${pageClass}`}>
             { !this.props.loading && children }
             { this.props.loading && (<Spinner />) }
           </div>

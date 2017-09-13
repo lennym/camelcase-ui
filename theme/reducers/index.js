@@ -9,6 +9,7 @@ const loading = require('./fetch');
 const error = require('./error');
 const tabs = require('./tabs');
 const dashboard = require('./dashboard');
+const search = require('./search');
 
 module.exports = combineReducers({
   cases,
@@ -20,6 +21,7 @@ module.exports = combineReducers({
   error,
   tabs,
   dashboard,
+  search,
   title: state => state || '',
   url: state => null,
   schema: state => state || {},

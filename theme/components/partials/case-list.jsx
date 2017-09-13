@@ -8,7 +8,7 @@ class CaseList extends Component {
 
   constructor(props) {
     super(props);
-    this.setState({ filter: props.filter || '' });
+    this.setState({ filter: typeof props.filter === 'string' ? props.filter : '' });
   }
 
   filter(e) {
@@ -20,7 +20,9 @@ class CaseList extends Component {
     const cases = (this.props.cases || []).filter(c => c.reference.toString().includes(filter) || c.displayName.toLowerCase().includes(filter));
     return (
       <div>
-        <input type="search" placeholder="Filter cases..." onInput={e => this.filter(e)}/>
+        {this.props.filter && (
+          <input type="search" placeholder="Filter cases..." onInput={e => this.filter(e)}/>
+        )}
         { !!cases.length && (
           <table class="case-list">
             {
@@ -51,7 +53,7 @@ class CaseList extends Component {
         ) }
         { !cases.length && (
           <div class="dashboard-message">
-            <h1>No cases found</h1>
+            <h2>No cases found</h2>
           </div>
         ) }
 
