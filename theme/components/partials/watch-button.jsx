@@ -13,7 +13,8 @@ class WatchButton extends Component {
     e.preventDefault();
     e.stopPropagation();
     const options = {
-      method: this.isWatching() ? 'DELETE' : 'PUT'
+      method: this.isWatching() ? 'DELETE' : 'PUT',
+      spinner: false
     };
     return this.saveData(`/api/case/${this.props.case.reference}/watch`, {}, options)
       .then(json => {
