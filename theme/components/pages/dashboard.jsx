@@ -1,3 +1,5 @@
+const qs = require('querystring');
+
 const { Component, h } = require('preact');
 const { Link } = require('preact-router/match');
 const moment = require('moment');
@@ -12,10 +14,10 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.props.dashboard = this.props.dashboard || {};
+    this.setState({ page: 1 });
   }
 
   componentDidMount() {
-    this.props.dispatch({ type: 'LOAD_CASES', cases: [] });
     this.timeout = setInterval(() => this.refresh({ spinner: false }), 20000);
     return this.refresh();
   }
@@ -25,22 +27,39 @@ class Dashboard extends Component {
   }
 
   refresh(options) {
-    return this.fetchData('/api/cases', options)
+    Object.keys(this.getFilters()).forEach(key => this.loadView(key, options));
+  }
+
+  loadView(prop, options) {
+    let url = this.getFilters()[prop];
+    if (!url) {
+      return;
+    }
+    if (typeof url === 'string') {
+      url = { url };
+    }
+    url.query = url.query || {};
+    url.query.page = this.state.page || 1;
+    return this.fetchData(`${url.url}?${qs.stringify(url.query)}`, options)
       .then(json => {
-        this.props.dispatch({ type: 'LOAD_CASES', cases: json });
+        this.props.dispatch(Object.assign({ type: 'LOAD_DASHBOARD_VIEW', view: prop }, json));
       });
   }
 
-  filter(filter) {
-    const FILTERS = {
-      open: c => c.isOpen,
-      tasks: c => c.isOpen && c.openTasks,
-      watching: c => c.isOpen && c.watchers.filter(w => w.id === this.props.user.id).length
+  loadMore() {
+    this.setState({ page: this.state.page + 1 });
+    this.loadView(this.props.dashboard.filter, { spinner: false });
+  }
+
+  getFilters() {
+    return {
+      open: {
+        url: '/api/cases',
+        query: { state: ['backlog', 'in-progress'] }
+      },
+      tasks: '/api/cases',
+      watching: '/api/cases'
     };
-    filter = filter || this.props.dashboard.filter;
-    filter = filter && FILTERS[filter] ? filter : 'watching';
-    const cases = this.props.cases || [];
-    return cases.filter(FILTERS[filter]);
   }
 
   selected(filter) {
@@ -48,29 +67,36 @@ class Dashboard extends Component {
   }
 
   setFilter(filter) {
+    this.setState({ page: 1 });
     this.props.dispatch({ type: 'DASHBOARD_FILTER', filter });
   }
 
   render() {
-    const cases = this.filter();
-    const watching = this.filter('watching').length;
-    const open = this.filter('open').length;
-    const tasks = this.filter('tasks').length;
+    const list = this.props.dashboard[this.props.dashboard.filter];
+    const counts = Object.keys(this.getFilters()).reduce((map, key) => {
+      return Object.assign(map, {
+        [key]: this.props.dashboard[key] ? this.props.dashboard[key].total : '-'
+      });
+    }, {});
     return (
       <Layout {...this.props}>
         <div class="dashboard">
           <ul class="stats">
             <li onClick={() => this.setFilter('watching')} class={this.selected('watching')}>
-              <span class="count">{watching}</span><label>cases you are watching</label>
+              <span class="count">{counts.watching}</span><label>cases you are watching</label>
             </li>
             <li onClick={() => this.setFilter('tasks')} class={this.selected('tasks')}>
-              <span class="count">{tasks}</span><label>cases with pending tasks</label>
+              <span class="count">{counts.tasks}</span><label>cases with pending tasks</label>
             </li>
             <li onClick={() => this.setFilter('open')} class={this.selected('open')}>
-              <span class="count">{open}</span><label>open cases</label>
+              <span class="count">{counts.open}</span><label>open cases</label>
             </li>
           </ul>
-          <CaseList {...this.props} cases={cases} filter={true} />
+          {
+            this.props.dashboard[this.props.dashboard.filter] && (
+              <CaseList {...this.props} filter={true} list={list} loadMore={() => this.loadMore()} />
+            )
+          }
         </div>
       </Layout>
     );
