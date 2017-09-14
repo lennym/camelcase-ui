@@ -13,35 +13,48 @@ class Search extends Component {
 
   constructor(props) {
     super(props);
-    this.setState({ searched: false });
+    this.setState({ searched: false, page: 1 });
   }
 
   componentDidMount() {
-    this.props.dispatch({ type: 'LOAD_CASES', cases: [] });
+    this.props.dispatch({ type: 'RESET_SEARCH_RESULTS' });
   }
 
   updateQuery(prop, val) {
+    this.setState({ page: 1 });
     this.props.dispatch({ type: 'UPDATE_SEARCH_QUERY', prop, val });
   }
 
-  search(e) {
-    e.preventDefault();
+  onSearch(e) {
+    e && e.preventDefault();
+    this.search();
+  }
+
+  search(options) {
     this.setState({ searched: true });
-    const query = qs.stringify(this.props.search);
-    this.fetchData(`/api/cases?${query}`)
+    const query = Object.assign({
+      page: this.state.page || 1
+    }, this.props.search);
+    this.fetchData(`/api/cases?${qs.stringify(query)}`, options)
       .then(json => {
-        this.props.dispatch({ type: 'LOAD_CASES', cases: json });
+        this.props.dispatch(Object.assign({ type: 'RECEIVE_SEARCH_RESULTS' }, json));
       });
   }
 
+  loadMore() {
+    this.setState({ page: this.state.page + 1 });
+    this.search({ spinner: false });
+  }
+
   reset() {
+    this.setState({ page: 1 });
     this.props.dispatch({ type: 'RESET_SEARCH_QUERY' });
   }
 
   renderForm() {
     const fields = Object.keys(this.props.schema).filter(key => this.props.schema[key].index);
     return (
-      <form onSubmit={e => this.search(e)}>
+      <form onSubmit={e => this.onSearch(e)}>
         <FormRow
           name="reference"
           inputType="text"
@@ -71,7 +84,14 @@ class Search extends Component {
       <Layout {...this.props} getSidebar={sidebar} className={className}>
         <h1>Search</h1>
         {
-          this.state.searched && <CaseList {...this.props} />
+          this.state.searched && (
+            <div>
+              {
+                !!this.props.results.cases.length && (<p>Showing 1-{this.props.results.cases.length} of {this.props.results.total} cases</p>)
+              }
+              <CaseList {...this.props} list={this.props.results} loadMore={() => this.loadMore()} />
+            </div>
+          )
         }
         {
           !this.state.searched && this.renderForm()

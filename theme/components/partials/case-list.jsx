@@ -17,7 +17,7 @@ class CaseList extends Component {
 
   render(props, state) {
     const filter = (this.state.filter || '').toLowerCase();
-    const cases = (this.props.cases || []).filter(c => c.reference.toString().includes(filter) || c.displayName.toLowerCase().includes(filter));
+    const cases = (this.props.list.cases || []).filter(c => c.reference.toString().includes(filter) || c.displayName.toLowerCase().includes(filter));
     return (
       <div>
         {this.props.filter && (
@@ -50,6 +50,9 @@ class CaseList extends Component {
               })
             }
           </table>
+        ) }
+        { this.props.list.page < this.props.list.pages && (
+          <button onClick={() => {this.props.loadMore()}}>Load more</button>
         ) }
         { !cases.length && (
           <div class="dashboard-message">
