@@ -9,6 +9,7 @@ const tabs = require('./tabs');
 const dashboard = require('./dashboard');
 const search = require('./search');
 const results = require('./search-results');
+const savedSearch = require('./saved-search');
 
 module.exports = combineReducers({
   activecase,
@@ -20,6 +21,7 @@ module.exports = combineReducers({
   dashboard,
   search,
   results,
+  savedSearch,
   title: state => state || '',
   url: state => null,
   schema: state => state || {},

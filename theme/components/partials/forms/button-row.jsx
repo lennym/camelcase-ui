@@ -5,6 +5,7 @@ class ButtonRow extends Component {
   render() {
     return (
       <div class="form-row button-row">
+        { this.props.children }
         { this.props.cancel && (
           <input
             type="button"

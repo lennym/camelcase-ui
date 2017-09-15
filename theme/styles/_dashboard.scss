@@ -5,14 +5,15 @@
   }
   .stats {
     margin-top: $gutter;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-column-gap: 2vw;
+    display: flex;
     list-style: none;
+    margin-left: -$gutter;
     li {
+      margin-left: $gutter;
       height: 15vw;
       min-height: 15rem;
-      grid-row: 1;
+      flex-grow: 1;
+      flex-basis: 33%;
       background: $color-secondary;
       color: white;
       padding: 1vw 2vw;

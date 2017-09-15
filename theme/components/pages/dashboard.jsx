@@ -19,11 +19,23 @@ class Dashboard extends Component {
 
   componentDidMount() {
     this.timeout = setInterval(() => this.refresh({ spinner: false }), 20000);
+    this.fetchData('/api/saved-search', { spinner: false })
+      .then(json => {
+        if (json.ok) {
+          this.props.dispatch(Object.assign({ type: 'UPDATE_SAVED_SEARCH' }, json));
+        }
+      });
     return this.refresh();
   }
 
   componentWillUnmount() {
     clearInterval(this.timeout);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevProps.dashboard.savedSearch && this.props.savedSearch) {
+      this.loadView('savedsearch', { spinner: false });
+    }
   }
 
   refresh(options) {
@@ -38,7 +50,7 @@ class Dashboard extends Component {
     if (typeof url === 'string') {
       url = { url };
     }
-    url.query = url.query || {};
+    url.query = Object.assign({}, url.query);
     url.query.page = this.state.page || 1;
     return this.fetchData(`${url.url}?${qs.stringify(url.query)}`, options)
       .then(json => {
@@ -52,14 +64,20 @@ class Dashboard extends Component {
   }
 
   getFilters() {
-    return {
+    const filters = {
       open: {
         url: '/api/cases',
         query: { state: ['backlog', 'in-progress'] }
       },
-      tasks: '/api/cases',
-      watching: '/api/cases'
+      watching: '/api/cases/watching'
     };
+    if (this.props.savedSearch) {
+      filters.savedsearch = {
+        url: '/api/cases',
+        query: this.props.savedSearch
+      }
+    }
+    return filters;
   }
 
   selected(filter) {
@@ -69,11 +87,13 @@ class Dashboard extends Component {
   setFilter(filter) {
     this.setState({ page: 1 });
     this.props.dispatch({ type: 'DASHBOARD_FILTER', filter });
+    this.loadView(filter, { spinner: false });
   }
 
   render() {
+    const filters = this.getFilters();
     const list = this.props.dashboard[this.props.dashboard.filter];
-    const counts = Object.keys(this.getFilters()).reduce((map, key) => {
+    const counts = Object.keys(filters).reduce((map, key) => {
       return Object.assign(map, {
         [key]: this.props.dashboard[key] ? this.props.dashboard[key].total : '-'
       });
@@ -85,9 +105,13 @@ class Dashboard extends Component {
             <li onClick={() => this.setFilter('watching')} class={this.selected('watching')}>
               <span class="count">{counts.watching}</span><label>cases you are watching</label>
             </li>
-            <li onClick={() => this.setFilter('tasks')} class={this.selected('tasks')}>
-              <span class="count">{counts.tasks}</span><label>cases with pending tasks</label>
-            </li>
+            {
+              !!filters.savedsearch && (
+                <li onClick={() => this.setFilter('savedsearch')} class={this.selected('savedsearch')}>
+                  <span class="count">{counts.savedsearch}</span><label>cases matching your saved search</label>
+                </li>
+              )
+            }
             <li onClick={() => this.setFilter('open')} class={this.selected('open')}>
               <span class="count">{counts.open}</span><label>open cases</label>
             </li>

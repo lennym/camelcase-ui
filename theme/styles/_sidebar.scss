@@ -21,8 +21,9 @@
   form {
     padding: $gutter;
 
-    button, .button {
+    button, input[type="button"], input[type="submit"], .button {
       @extend .button-small;
+      padding: 0 0.5rem;
     }
   }
 }

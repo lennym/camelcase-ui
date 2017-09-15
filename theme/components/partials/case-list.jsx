@@ -52,7 +52,7 @@ class CaseList extends Component {
           </table>
         ) }
         { this.props.list.page < this.props.list.pages && (
-          <button onClick={() => {this.props.loadMore()}}>Load more</button>
+          <div class="load-more"><button onClick={() => {this.props.loadMore()}}>Load more</button></div>
         ) }
         { !cases.length && (
           <div class="dashboard-message">

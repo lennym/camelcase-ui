@@ -5,7 +5,8 @@ module.exports = (state, action) => {
     total: 0,
     page: 1,
     pages: 1,
-    id: null
+    id: null,
+    cases: []
   };
   state = state || defaults;
   switch (action.type) {
@@ -20,6 +21,15 @@ module.exports = (state, action) => {
         cases = action.cases;
       }
       return Object.assign({}, pick(action, Object.keys(defaults)), { cases });
+    }
+    case 'SUBSCRIBE': {
+      state.cases = state.cases.map(c => {
+        if (c._id === action.case._id) {
+          c.watchers = action.case.watchers;
+        }
+        return c;
+      });
+      return Object.assign({}, state);
     }
   }
   return state;

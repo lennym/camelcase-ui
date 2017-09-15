@@ -18,6 +18,23 @@ class Search extends Component {
 
   componentDidMount() {
     this.props.dispatch({ type: 'RESET_SEARCH_RESULTS' });
+    this.fetchData('/api/saved-search', { spinner: false })
+      .then(json => {
+        if (json.ok) {
+          this.props.dispatch(Object.assign({ type: 'UPDATE_SAVED_SEARCH' }, json));
+        }
+      });
+  }
+
+  loadSavedSearch(e) {
+    e && e.preventDefault();
+    if (!this.props.savedSearch) {
+      return;
+    }
+    Object.keys(this.props.savedSearch).forEach(key => {
+      this.updateQuery(key, this.props.savedSearch[key]);
+    });
+    this.search({ query: this.props.savedSearch });
   }
 
   updateQuery(prop, val) {
@@ -30,11 +47,20 @@ class Search extends Component {
     this.search();
   }
 
+  saveSearch(e) {
+    e && e.preventDefault();
+    this.saveData(`/api/saved-search`, this.props.search, { spinner: false })
+      .then(json => {
+        this.props.dispatch(Object.assign({ type: 'UPDATE_SAVED_SEARCH' }, json));
+      });
+  }
+
   search(options) {
+    options = options || {};
     this.setState({ searched: true });
     const query = Object.assign({
       page: this.state.page || 1
-    }, this.props.search);
+    }, options.query || this.props.search);
     this.fetchData(`/api/cases?${qs.stringify(query)}`, options)
       .then(json => {
         this.props.dispatch(Object.assign({ type: 'RECEIVE_SEARCH_RESULTS' }, json));
@@ -72,7 +98,9 @@ class Search extends Component {
           })
         }
         <StateSelector states={this.props.states} checked={this.props.search.state} onInput={states => this.updateQuery('state', states)} />
-        <ButtonRow cancel="Reset" onCancel={() => this.reset()} submit="Search" />
+        <ButtonRow cancel="Reset" onCancel={() => this.reset()} submit="Search">
+          { this.props.savedSearch && <input type="button" class="button-clear" onClick={e => this.loadSavedSearch()} value="Use saved" /> }
+        </ButtonRow>
       </form>
     );
   }
@@ -86,9 +114,14 @@ class Search extends Component {
         {
           this.state.searched && (
             <div>
-              {
-                !!this.props.results.cases.length && (<p>Showing 1-{this.props.results.cases.length} of {this.props.results.total} cases</p>)
-              }
+              <div class="search-summary">
+                {
+                  !!this.props.results.cases.length && (
+                    <p>Showing 1-{this.props.results.cases.length} of {this.props.results.total} cases</p>
+                  )
+                }
+                <p><a onClick={e => this.saveSearch(e)} class="button button-small">save to dashboard</a></p>
+              </div>
               <CaseList {...this.props} list={this.props.results} loadMore={() => this.loadMore()} />
             </div>
           )

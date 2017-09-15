@@ -21,3 +21,15 @@
   }
 
 }
+
+.load-more {
+  text-align: center;
+  button {
+    @extend .button-clear;
+    width: 100%;
+
+    &:hover {
+      background: $color-hover-bg;
+    }
+  }
+}
