@@ -2,15 +2,13 @@ const { uniqBy, pick } = require('lodash');
 
 module.exports = (state, action) => {
   state = state || {
-    filter: 'open',
-    savedSearch: null
+    filter: 'open'
   };
   switch (action.type) {
     case 'DASHBOARD_FILTER': {
       state[action.filter].id = null;
       return Object.assign({}, state, { filter: action.filter });
     }
-    case 'SUBSCRIBE':
     case 'OPEN_CASE': {
       Object.keys(state).forEach(key => {
         if (state[key] && state[key].cases) {
@@ -36,15 +34,13 @@ module.exports = (state, action) => {
           state[key].cases = state[key].cases.map(c => {
             if (c._id === action.case._id) {
               c.watchers = action.case.watchers;
+              state[key].id = null;
             }
             return c;
           });
         }
       });
       return Object.assign({}, state);
-    }
-    case 'UPDATE_SAVED_SEARCH': {
-      return Object.assign({}, state, { savedSearch: action.query });
     }
   }
   return state;

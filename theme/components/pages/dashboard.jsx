@@ -33,7 +33,7 @@ class Dashboard extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!prevProps.dashboard.savedSearch && this.props.savedSearch) {
+    if (!prevProps.savedSearch && this.props.savedSearch) {
       this.loadView('savedsearch', { spinner: false });
     }
   }
