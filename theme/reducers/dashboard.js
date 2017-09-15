@@ -10,6 +10,15 @@ module.exports = (state, action) => {
       state[action.filter].id = null;
       return Object.assign({}, state, { filter: action.filter });
     }
+    case 'SUBSCRIBE':
+    case 'OPEN_CASE': {
+      Object.keys(state).forEach(key => {
+        if (state[key] && state[key].cases) {
+          state[key].id = null;
+        }
+      });
+      return Object.assign({}, state);
+    }
     case 'LOAD_DASHBOARD_VIEW': {
       const view = Object.assign({ id: null, cases: [] }, state[action.view]);
       let cases;
